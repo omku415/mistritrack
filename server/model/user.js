@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -26,10 +25,9 @@ const userSchema = new mongoose.Schema({
     required: [true, "Role is required"],
   },
   assignedSite: {
-    type: String,
-    required: function () {
-      return this.role === "supervisor";
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Site",
+    required: false, // allows unassigned supervisors
   },
 });
 
@@ -45,13 +43,9 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 };
 
 userSchema.methods.generateToken = function () {
-  return jwt.sign(
-    { id: this._id, role: this.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  );
+  return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
 };
-
-
 
 export const User = mongoose.model("User", userSchema);
