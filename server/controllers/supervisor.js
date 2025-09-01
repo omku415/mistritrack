@@ -2,7 +2,7 @@ import { User } from "../model/user.js";
 import ErrorHandler from "../middleware/error.js";
 import { catchAsyncError } from "../middleware/catchAsyncError.js";
 
-// ✅ Create supervisor (manager) — only admin allowed
+
 export const createSupervisor = catchAsyncError(async (req, res, next) => {
   const { name, email, password, assignedSite } = req.body;
 
@@ -10,13 +10,13 @@ export const createSupervisor = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Only admin can create supervisors", 403));
   }
 
-  // Check if email already exists
+  
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return next(new ErrorHandler("User with this email already exists", 400));
   }
 
-  // Create new supervisor
+  
   const newSupervisor = await User.create({
     name,
     email,

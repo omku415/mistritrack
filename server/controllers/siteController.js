@@ -10,7 +10,7 @@ export const createSite = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Only admin can create sites", 403));
   }
 
-  // Create site object with or without supervisor
+  
   const siteData = {
     name,
     location,
@@ -19,7 +19,7 @@ export const createSite = catchAsyncError(async (req, res, next) => {
     created_by: req.user._id,
   };
 
-  // If supervisor is provided, validate and attach it
+  
   let supervisor = null;
 
   if (supervisor_id) {
