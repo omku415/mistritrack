@@ -1,9 +1,9 @@
-
+import LoginPage from "./component/Auth/LoginPage"
 function App() {
 
   return (
     <>
-      <p>hi</p>
+      <LoginPage/>
     </>
   )
 }
