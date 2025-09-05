@@ -4,7 +4,7 @@ export const login = async (email, password, role) => {
   const response = await axios.post(
     "http://localhost:5000/api/auth/login",
     { email, password, role },
-    { withCredentials: true } // important for cookie
+    { withCredentials: true }
   );
   return response.data;
 };
