@@ -10,7 +10,6 @@ export const createSite = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Only admin can create sites", 403));
   }
 
-  
   const siteData = {
     name,
     location,
@@ -19,7 +18,6 @@ export const createSite = catchAsyncError(async (req, res, next) => {
     created_by: req.user._id,
   };
 
-  
   let supervisor = null;
 
   if (supervisor_id) {
