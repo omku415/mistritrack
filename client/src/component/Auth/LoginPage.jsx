@@ -1,8 +1,12 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import { UserCheck, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { login as loginAPI } from "../../services/authService";
+import { AuthContext } from "../../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     role: "admin",
     email: "",
@@ -16,7 +20,14 @@ export default function LoginPage() {
     setError("");
     try {
       // Call backend login API (cookie will be set automatically)
-      await loginAPI(formData.email, formData.password, formData.role);
+      const userData = await loginAPI(
+        formData.email,
+        formData.password,
+        formData.role
+      );
+      login(userData.user);
+      if (userData.role === "admin") navigate("/admin/dashboard");
+      if (userData.role === "supervisor") navigate("/supervisor/dashboard");
       console.log("Login Sucessful");
     } catch (err) {
       console.error(err.response?.data?.message || err.message);
