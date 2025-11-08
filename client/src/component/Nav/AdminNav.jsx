@@ -28,7 +28,7 @@ const AdminNav = () => {
         <ul className="menu menu-horizontal px-1 space-x-6">
           <li>
             <Link
-              to="/admin/dashboard"
+              to="/admin/create-site"
               className="hover:bg-gray-800 hover:text-white rounded-lg px-3 py-1"
             >
               AddSite
