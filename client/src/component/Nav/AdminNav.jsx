@@ -44,7 +44,7 @@ const AdminNav = () => {
           </li>
           <li>
             <Link
-              to="/admin/contact"
+              to="/admin/add-supervisor"
               className="hover:bg-gray-800 hover:text-white rounded-lg px-3 py-1"
             >
               AddSupervisor
