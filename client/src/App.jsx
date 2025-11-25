@@ -6,12 +6,14 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
+
 import { AuthContext } from "./Context/AuthContext";
 
 import LoginPage from "./component/Auth/LoginPage";
 import AdminDashboard from "./component/AdminDashboard/AdminDashboard";
 import SiteCreationForm from "./component/AdminDashboard/CreateSite";
 import AddSupervisorForm from "./component/AdminDashboard/createSupervisor";
+import AddLabourForm from "./component/AdminDashboard/createLabour";
 import AdminNav from "./component/Nav/AdminNav";
 
 function AdminLayout({ children }) {
@@ -40,7 +42,7 @@ function App() {
       {/* Public Login Page */}
       <Route path="/" element={!user ? <LoginPage /> : null} />
 
-      {/* Admin Routes */}
+      {/* Admin Dashboard */}
       <Route
         path="/admin/dashboard"
         element={
@@ -48,6 +50,7 @@ function App() {
         }
       />
 
+      {/* Create Site */}
       <Route
         path="/admin/create-site"
         element={
@@ -61,12 +64,27 @@ function App() {
         }
       />
 
+      {/* Add Supervisor */}
       <Route
         path="/admin/add-supervisor"
         element={
           user?.role === "admin" ? (
             <AdminLayout>
               <AddSupervisorForm />
+            </AdminLayout>
+          ) : (
+            <Navigate to="/" />
+          )
+        }
+      />
+
+      {/* Add Labour */}
+      <Route
+        path="/admin/add-labour"
+        element={
+          user?.role === "admin" ? (
+            <AdminLayout>
+              <AddLabourForm />
             </AdminLayout>
           ) : (
             <Navigate to="/" />

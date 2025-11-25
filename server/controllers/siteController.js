@@ -20,25 +20,41 @@ export const createSite = catchAsyncError(async (req, res, next) => {
     created_by: req.user._id,
   };
 
-  // Handle supervisor assignment
   let supervisor = null;
+
+  // ------------------------------
+  // 1️⃣ Validate Supervisor if provided
+  // ------------------------------
   if (supervisor_id) {
     supervisor = await User.findById(supervisor_id);
+
     if (!supervisor || supervisor.role !== "supervisor") {
       return next(new ErrorHandler("Invalid supervisor ID", 400));
     }
+
+    // STRICT RULE: Supervisor cannot be assigned to another site
+    if (supervisor.assignedSite) {
+      return next(new ErrorHandler("Supervisor is already assigned to another site", 400));
+    }
+
     siteData.supervisor_id = supervisor_id;
   }
 
-  // Handle Cloudinary image upload
+  // ------------------------------
+  // OPTIONAL: Handle Image Upload
+  // ------------------------------
   if (req.file && req.file.path) {
-    siteData.image = req.file.path; // Cloudinary URL
+    siteData.image = req.file.path;
   }
 
-  // Create the site
+  // ------------------------------
+  // 2️⃣ Create the Site
+  // ------------------------------
   const site = await Site.create(siteData);
 
-  // Assign site to supervisor if provided
+  // ------------------------------
+  // 3️⃣ LINK BOTH SIDES (If supervisor provided)
+  // ------------------------------
   if (supervisor) {
     supervisor.assignedSite = site._id;
     await supervisor.save();
@@ -48,5 +64,18 @@ export const createSite = catchAsyncError(async (req, res, next) => {
     success: true,
     message: "Site created successfully",
     site,
+  });
+});
+
+// ------------------------------
+//  GET ALL SITES
+// ------------------------------
+export const getAllSites = catchAsyncError(async (req, res, next) => {
+  const sites = await Site.find().populate("supervisor_id", "name email");
+
+  res.status(200).json({
+    success: true,
+    count: sites.length,
+    sites,
   });
 });
