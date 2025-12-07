@@ -31,6 +31,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/sites", siteRoutes);
 app.use("/api/supervisor", supervisorRoute);
 app.use("/api/labour", labourRoutes);
+app.use("/api/sites", siteRoutes);
 
 
 connection();
