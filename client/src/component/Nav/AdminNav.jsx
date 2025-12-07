@@ -36,7 +36,7 @@ const AdminNav = () => {
           </li>
           <li>
             <Link
-              to="/admin/about"
+              to="/admin/add-labour"
               className="hover:bg-gray-800 hover:text-white rounded-lg px-3 py-1"
             >
               AddLabour

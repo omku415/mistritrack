@@ -26,7 +26,7 @@ function AdminLayout({ children }) {
 }
 
 function App() {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,6 +36,13 @@ function App() {
       navigate(`/${user.role}/dashboard`);
     }
   }, [user]);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-white">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <Routes>
