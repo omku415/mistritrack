@@ -1,12 +1,17 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom"; // <-- import navigate hook
 import { AuthContext } from "../../Context/AuthContext";
 import AdminNav from "./AdminNav";
+import SupervisorNav from "./SupervisorNav";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
-
-  return <div>{user?.role === "admin" && <AdminNav />}</div>;
+console.log("Navbar rendered. User =", user);
+  return (
+    <>
+      {user?.role === "admin" && <AdminNav />}
+      {user?.role === "supervisor" && <SupervisorNav />}
+    </>
+  );
 };
 
 export default Navbar;
