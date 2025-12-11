@@ -67,3 +67,46 @@ export const createSupervisor = catchAsyncError(async (req, res, next) => {
     },
   });
 });
+
+export const getSupervisorDashboard = catchAsyncError(async (req, res, next) => {
+  if (req.user.role !== "supervisor") {
+    return next(new ErrorHandler("Only supervisors can access this data", 403));
+  }
+
+  const supervisor = await User.findById(req.user._id);
+
+  let site = null;
+
+  // Try populate logic
+  if (supervisor.assignedSite) {
+    site = await Site.findById(supervisor.assignedSite);
+  }
+
+  // Fallback: Find by supervisor_id
+  if (!site) {
+    site = await Site.findOne({ supervisor_id: req.user._id });
+  }
+
+  if (!site) {
+    return res.status(200).json({
+      success: true,
+      assigned: false,
+      message: "You are not assigned to any site",
+      site: null,
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    assigned: true,
+    site: {
+      _id: site._id,
+      name: site.name,
+      location: site.location,
+      status: site.status,
+      description: site.description,
+      image: site.image,
+    },
+  });
+});
+

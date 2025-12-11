@@ -9,18 +9,25 @@ import {
 
 import { AuthContext } from "./Context/AuthContext";
 
+// Auth
 import LoginPage from "./component/Auth/LoginPage";
+
+// Admin Components
 import AdminDashboard from "./component/AdminDashboard/AdminDashboard";
 import SiteCreationForm from "./component/AdminDashboard/CreateSite";
 import AddSupervisorForm from "./component/AdminDashboard/createSupervisor";
 import AddLabourForm from "./component/AdminDashboard/createLabour";
-import AdminNav from "./component/Nav/AdminNav";
+import SupervisorDashboard from "./component/SupervisorDashboard/SupervisorDashboard";
 
-function AdminLayout({ children }) {
+// Shared Navbar Component
+import Navbar from "./component/Nav/NavBar";
+
+// LAYOUT (works for both Admin & Supervisor)
+function Layout({ children }) {
   return (
     <>
-      <AdminNav />
-      {children}
+      <Navbar />
+      <div className="pt-4">{children}</div>
     </>
   );
 }
@@ -30,12 +37,18 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Auto-redirect logged-in user from "/" to their dashboard
+  console.log("APP RENDERED");
+
   useEffect(() => {
     if (user && location.pathname === "/") {
-      navigate(`/${user.role}/dashboard`);
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (user.role === "supervisor") {
+        navigate("/supervisor/dashboard");
+      }
     }
-  }, [user]);
+  }, [user, location.pathname]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center text-white">
@@ -45,63 +58,93 @@ function App() {
   }
 
   return (
-    <Routes>
-      {/* Public Login Page */}
-      <Route path="/" element={!user ? <LoginPage /> : null} />
+    <>
+      <Routes>
 
-      {/* Admin Dashboard */}
-      <Route
-        path="/admin/dashboard"
-        element={
-          user?.role === "admin" ? <AdminDashboard /> : <Navigate to="/" />
-        }
-      />
+        {/* LOGIN ROUTE */}
+        <Route
+          path="/"
+          element={
+            !user ? (
+              <LoginPage />
+            ) : (
+              <Navigate to={`/${user.role}/dashboard`} replace />
+            )
+          }
+        />
 
-      {/* Create Site */}
-      <Route
-        path="/admin/create-site"
-        element={
-          user?.role === "admin" ? (
-            <AdminLayout>
-              <SiteCreationForm />
-            </AdminLayout>
-          ) : (
-            <Navigate to="/" />
-          )
-        }
-      />
+        {/* ADMIN ROUTES */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            user?.role === "admin" ? (
+              <Layout>
+                <AdminDashboard />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
 
-      {/* Add Supervisor */}
-      <Route
-        path="/admin/add-supervisor"
-        element={
-          user?.role === "admin" ? (
-            <AdminLayout>
-              <AddSupervisorForm />
-            </AdminLayout>
-          ) : (
-            <Navigate to="/" />
-          )
-        }
-      />
+        <Route
+          path="/admin/create-site"
+          element={
+            user?.role === "admin" ? (
+              <Layout>
+                <SiteCreationForm />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
 
-      {/* Add Labour */}
-      <Route
-        path="/admin/add-labour"
-        element={
-          user?.role === "admin" ? (
-            <AdminLayout>
-              <AddLabourForm />
-            </AdminLayout>
-          ) : (
-            <Navigate to="/" />
-          )
-        }
-      />
+        <Route
+          path="/admin/add-supervisor"
+          element={
+            user?.role === "admin" ? (
+              <Layout>
+                <AddSupervisorForm />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
 
-      {/* Catch-all */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        <Route
+          path="/admin/add-labour"
+          element={
+            user?.role === "admin" ? (
+              <Layout>
+                <AddLabourForm />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        {/* TEMP SUPERVISOR PLACEHOLDER */}
+        <Route
+          path="/supervisor"
+          element={
+            user?.role === "supervisor" ? (
+              <Layout>
+                <SupervisorDashboard />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        {/* CATCH ALL */}
+        <Route path="*" element={<Navigate to="/" />} />
+
+      </Routes>
+    </>
   );
 }
 
