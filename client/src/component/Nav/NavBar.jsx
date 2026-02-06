@@ -4,8 +4,8 @@ import AdminNav from "./AdminNav";
 import SupervisorNav from "./SupervisorNav";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
-console.log("Navbar rendered. User =", user);
+  const { user,loading } = useContext(AuthContext);
+   if(loading) return null;
   return (
     <>
       {user?.role === "admin" && <AdminNav />}

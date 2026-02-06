@@ -39,15 +39,6 @@ function App() {
 
   console.log("APP RENDERED");
 
-  useEffect(() => {
-    if (user && location.pathname === "/") {
-      if (user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else if (user.role === "supervisor") {
-        navigate("/supervisor/dashboard");
-      }
-    }
-  }, [user, location.pathname]);
 
   if (loading) {
     return (
@@ -128,7 +119,7 @@ function App() {
 
         {/* TEMP SUPERVISOR PLACEHOLDER */}
         <Route
-          path="/supervisor"
+          path="/supervisor/dashboard"
           element={
             user?.role === "supervisor" ? (
               <Layout>
