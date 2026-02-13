@@ -16,7 +16,7 @@ import LoginPage from "./component/Auth/LoginPage";
 import AdminDashboard from "./component/AdminDashboard/AdminDashboard";
 import SiteCreationForm from "./component/AdminDashboard/CreateSite";
 import AddSupervisorForm from "./component/AdminDashboard/createSupervisor";
-import AddLabourForm from "./component/AdminDashboard/createLabour";
+import AddLabourForm from "./component/common/CreateLabour";
 import SupervisorDashboard from "./component/SupervisorDashboard/SupervisorDashboard";
 
 // Shared Navbar Component
@@ -39,7 +39,6 @@ function App() {
 
   console.log("APP RENDERED");
 
-
   if (loading) {
     return (
       <div className="min-h-screen flex justify-center items-center text-white">
@@ -51,7 +50,6 @@ function App() {
   return (
     <>
       <Routes>
-
         {/* LOGIN ROUTE */}
         <Route
           path="/"
@@ -130,10 +128,22 @@ function App() {
             )
           }
         />
+        
+        <Route
+          path="/supervisor/add-labour"
+          element={
+            user?.role === "supervisor" ? (
+              <Layout>
+                <AddLabourForm role="supervisor" fixedSiteId={user.site_id} />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
 
         {/* CATCH ALL */}
         <Route path="*" element={<Navigate to="/" />} />
-
       </Routes>
     </>
   );

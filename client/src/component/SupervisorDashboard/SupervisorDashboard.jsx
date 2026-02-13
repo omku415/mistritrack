@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthContext";
 import { getSupervisorDashboard } from "../../services/supervisorDash";
 
@@ -10,11 +11,9 @@ const SupervisorDashboard = () => {
   useEffect(() => {
     const fetchSite = async () => {
       try {
-        const result = await getSupervisorDashboard(); 
-
+        const result = await getSupervisorDashboard();
         console.log("Dashboard API response:", result);
-
-        setSite(result.site);
+        setSite(result?.site || null);
       } catch (err) {
         console.error("Dashboard error:", err);
       } finally {
@@ -22,11 +21,10 @@ const SupervisorDashboard = () => {
       }
     };
 
-    fetchSite();
-  }, []);
+    if (user) fetchSite();
+  }, [user]);
 
-  if (loading)
-    return <div className="text-white p-6 text-xl">Loading...</div>;
+  if (loading) return <div className="text-white p-6 text-xl">Loading...</div>;
 
   if (!site)
     return (
@@ -50,12 +48,12 @@ const SupervisorDashboard = () => {
           <p>{site.description}</p>
 
           <div className="card-actions justify-center mt-4">
-            <a
-              href="/supervisor/add-labour"
+            <Link
+              to="/supervisor/add-labour"
               className="btn bg-white text-emerald-700"
             >
               Add Labour
-            </a>
+            </Link>
           </div>
         </div>
       </div>
