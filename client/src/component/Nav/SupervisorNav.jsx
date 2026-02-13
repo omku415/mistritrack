@@ -13,7 +13,6 @@ const SupervisorNav = () => {
 
   return (
     <div className="navbar bg-gradient-to-r from-emerald-500 to-emerald-700 text-white shadow-md px-4">
-
       {/* Navbar Start (Logo) */}
       <div className="navbar-start">
         <Link
@@ -33,6 +32,15 @@ const SupervisorNav = () => {
               className="hover:bg-gray-800 hover:text-white rounded-lg px-4 py-1"
             >
               Add Labour
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/supervisor/mark-attendance"
+              className="hover:bg-gray-800 hover:text-white rounded-lg px-4 py-1"
+            >
+              Mark Attendance
             </Link>
           </li>
         </ul>

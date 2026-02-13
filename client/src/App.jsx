@@ -18,6 +18,7 @@ import SiteCreationForm from "./component/AdminDashboard/CreateSite";
 import AddSupervisorForm from "./component/AdminDashboard/createSupervisor";
 import AddLabourForm from "./component/common/CreateLabour";
 import SupervisorDashboard from "./component/SupervisorDashboard/SupervisorDashboard";
+import MarkAttendance from "./component/SupervisorDashboard/MarkAttendance";
 
 // Shared Navbar Component
 import Navbar from "./component/Nav/NavBar";
@@ -128,13 +129,26 @@ function App() {
             )
           }
         />
-        
+
         <Route
           path="/supervisor/add-labour"
           element={
             user?.role === "supervisor" ? (
               <Layout>
                 <AddLabourForm role="supervisor" fixedSiteId={user.site_id} />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        <Route
+          path="/supervisor/mark-attendance"
+          element={
+            user?.role === "supervisor" ? (
+              <Layout>
+                <MarkAttendance />
               </Layout>
             ) : (
               <Navigate to="/" />
