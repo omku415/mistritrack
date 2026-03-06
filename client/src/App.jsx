@@ -19,6 +19,7 @@ import AddSupervisorForm from "./component/AdminDashboard/createSupervisor";
 import AddLabourForm from "./component/common/CreateLabour";
 import SupervisorDashboard from "./component/SupervisorDashboard/SupervisorDashboard";
 import MarkAttendance from "./component/SupervisorDashboard/MarkAttendance";
+import DownloadAttendance from "./component/SupervisorDashboard/DownloadAttendance";
 
 // Shared Navbar Component
 import Navbar from "./component/Nav/NavBar";
@@ -149,6 +150,18 @@ function App() {
             user?.role === "supervisor" ? (
               <Layout>
                 <MarkAttendance />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/supervisor/download-attendance"
+          element={
+            user?.role === "supervisor" ? (
+              <Layout>
+                <DownloadAttendance />
               </Layout>
             ) : (
               <Navigate to="/" />

@@ -13,6 +13,7 @@ const SupervisorNav = () => {
 
   return (
     <div className="navbar bg-gradient-to-r from-emerald-500 to-emerald-700 text-white shadow-md px-4">
+      
       {/* Navbar Start (Logo) */}
       <div className="navbar-start">
         <Link
@@ -23,9 +24,10 @@ const SupervisorNav = () => {
         </Link>
       </div>
 
-      {/* Navbar Center — Only Add Labour */}
+      {/* Navbar Center */}
       <div className="navbar-center">
         <ul className="menu menu-horizontal px-1">
+
           <li>
             <Link
               to="/supervisor/add-labour"
@@ -43,10 +45,21 @@ const SupervisorNav = () => {
               Mark Attendance
             </Link>
           </li>
+
+          {/* NEW DOWNLOAD BUTTON */}
+          <li>
+            <Link
+              to="/supervisor/download-attendance"
+              className="hover:bg-gray-800 hover:text-white rounded-lg px-4 py-1"
+            >
+              Download Attendance
+            </Link>
+          </li>
+
         </ul>
       </div>
 
-      {/* Navbar End — Logout */}
+      {/* Navbar End */}
       <div className="navbar-end">
         <button
           onClick={handleLogout}
@@ -55,6 +68,7 @@ const SupervisorNav = () => {
           Logout
         </button>
       </div>
+
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { siteRoutes } from "./routes/siteRoute.js";
 import supervisorRoute from "./routes/supervisorRoute.js";
 import cookieParser from "cookie-parser";
 import { labourRoutes } from "./routes/labourRoute.js";
+import attendanceRoutes from "./routes/attendance.js";
 import cors from "cors";
 
 config({ path: "./.env" });
@@ -32,6 +33,7 @@ app.use("/api/sites", siteRoutes);
 app.use("/api/supervisor", supervisorRoute);
 app.use("/api/labour", labourRoutes);
 app.use("/api/sites", siteRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 
 connection();
